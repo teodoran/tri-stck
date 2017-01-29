@@ -55,7 +55,36 @@ let rot stack =
 //let len (stack:List<string>) =
 //    push stack.Length stack
 
-let isTernary string = Regex.IsMatch(string, "^[+|0|-]*$");
+let asNumber idx char =
+    let d = pown 3 idx
+
+    match char with
+    | '+' -> 1 * d
+    | '-' -> -1 * d
+    | _ -> 0
+
+let asInt string =
+    let len = (String.length string) - 1
+    let indexes = [0 .. len]
+    
+    indexes
+    |> List.map (fun i -> asNumber i (string.Chars(len - i)))
+    |> Seq.sum
+
+let rec asTernary num i =
+    let p = pown 3 1
+
+    match (num < p) with
+    | false -> []
+    | true ->
+        (*TODO SOme recursion will work here*)
+
+        if isTernary exp then
+            push exp stack
+        else
+            printfn "Does not compute %s" exp
+            stack
+let isTernary string = Regex.IsMatch(string, "^[+|0|-]*$")
 
 (*
 let math op stack =
@@ -244,6 +273,10 @@ let load file =
 
 [<EntryPoint>]
 let main args =
+
+    let test = asInt "+--"
+    printfn "Test: %d" test
+
     match Array.length args > 0 with
     | true ->
         load args.[0]
